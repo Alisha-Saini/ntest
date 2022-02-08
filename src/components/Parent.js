@@ -1,18 +1,27 @@
-import React from "react";
-import Child from './Child';
-import PropTypes from 'prop-types';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { URL_GET } from "../Config/Api";
+import Header from "./Header";
+import Profile from "./Profile";
 
 function Parent(props) {
+  const [posts, setPost] = useState([]);
 
-	return (
-		<div className="Parent">
-		Parent
-		<Child desc="my child component"/>
-		</div>
-	);
-              
+  useEffect(() => {
+    axios.get(URL_GET).then((response) => {
+      setPost(response.data);
+    });
+  }, []);
+
+  console.log("posts", posts);
+
+  return (
+    <div className="Parent">
+      <h1>XYZ - Company</h1>
+      <Header desc="List of Office Employees" />
+      <Profile clientData={posts?.data} />
+    </div>
+  );
 }
-
-
 
 export default Parent;
